@@ -36,12 +36,14 @@
 //}
 package com.example.demo.controller;
 
-import com.example.demo.model.Employee;
+import com.example.demo.model.EmployeeDTO;
 import com.example.demo.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,28 +59,32 @@ public class EmployeeController {
 
     @Operation(summary = "Get all employees", description = "Get a list of all employees", tags = {"Employee Details"})
     @GetMapping
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
 
     @Operation(summary = "Get an employee by ID", description = "Get an employee based on their ID", tags = {"Employee Details"})
     @GetMapping("/{id}")
-    public Optional<Employee> getEmployeeById(
+    public ResponseEntity<EmployeeDTO> getEmployeeById(
             @PathVariable @Parameter(description = "ID of the employee") Long id) {
-        return employeeService.getEmployeeById(id);
+        Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
+        return employeeDTO.map(dto -> new ResponseEntity<>(dto, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Operation(summary = "Save a new employee", description = "Save a new employee", tags = {"Employee Details"})
     @PostMapping
-    public Employee saveEmployee(
-            @RequestBody Employee employee) {
-        return employeeService.saveEmployee(employee);
+    public ResponseEntity<EmployeeDTO> saveEmployee(
+            @RequestBody EmployeeDTO employeeDTO) {
+        EmployeeDTO savedEmployeeDTO = employeeService.saveEmployee(employeeDTO);
+        return new ResponseEntity<>(savedEmployeeDTO, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Delete an employee by ID", description = "Delete an employee based on their ID", tags = {"Employee Details"})
     @DeleteMapping("/{id}")
-    public void deleteEmployee(
+    public ResponseEntity<Void> deleteEmployee(
             @PathVariable Long id) {
         employeeService.deleteEmployee(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

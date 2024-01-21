@@ -106,53 +106,25 @@
 package com.example.demo.service;
 import com.example.demo.model.Employee;
 import com.example.demo.model.EmployeeDTO;
+import com.example.demo.model.UserInfo;
 import com.example.demo.repository.EmployeeRepository;
 
+import com.example.demo.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
-//public class EmployeeService {
-//    @Autowired
-//    private EmployeeRepository employeeRepository;
-//    private final ModelMapper modelMapper = new ModelMapper();
-//
-//    public List<EmployeeDTO> getAllEmployees() {
-//        List<Employee> employee = employeeRepository.findAll();
-//        return employee.stream()
-//                .map(this::convertToDTO)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public Optional<EmployeeDTO> getEmployeeById(Long id) {
-//        Optional<Employee> employee = employeeRepository.findById(id);
-//        return employee.map(this::convertToDTO);
-//    }
-//
-//    public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) {
-//        Employee employee = convertToEntity(employeeDTO);
-//        Employee savedEmployee = employeeRepository.save(employee);
-//        return convertToDTO(savedEmployee);
-//    }
-//
-//    public void deleteEmployee(Long id) {
-//        employeeRepository.deleteById(id);
-//    }
-//
-//    private EmployeeDTO convertToDTO(Employee employee) {
-//        return modelMapper.map(employee, EmployeeDTO.class);
-//    }
-//
-//    private Employee convertToEntity(EmployeeDTO employeeDTO) {
-//        return modelMapper.map(employeeDTO, Employee.class);
-//    }
-//
-//}
 public class EmployeeService {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserInfoRepository repository;
+    @Autowired
+    private  EmployeeRepository employeeRepository;
 
     // Get all employees
     public List<EmployeeDTO> getAllEmployees() {
@@ -204,4 +176,9 @@ public class EmployeeService {
         employee.setDepartment(employeeDTO.getDepartment());
         return employee;
     }
-}
+    public String addUser(UserInfo userInfo) {
+            userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
+            repository.save(userInfo);
+            return "user added to system ";
+        }
+    }

@@ -193,7 +193,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors->cors.disable())
                 .authorizeHttpRequests(auth->auth.requestMatchers("/home")
-                        .authenticated().requestMatchers("/v3/api-docs/**","swagger-ui/**","/swagger-ui.html","/employees","/employees/new","/employees/authenticate")
+                        .authenticated().requestMatchers("/v3/api-docs/**","swagger-ui/**","/swagger-ui.html","/employees","/auth/new","/auth/authenticate")
                         .permitAll()
                         .anyRequest()
                         .authenticated())

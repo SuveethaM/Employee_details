@@ -35,11 +35,8 @@
 //    }
 //}
 package com.example.demo.controller;
-import com.example.demo.model.AuthRequest;
-import com.example.demo.model.Employee;
 import com.example.demo.model.EmployeeDTO;
 import com.example.demo.model.UserInfo;
-import com.example.demo.service.JwtService;
 import com.example.demo.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -48,11 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
@@ -65,11 +57,7 @@ public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
-    @Autowired
-    private JwtService jwtService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Operation(summary = "Get all employees", description = "Get a list of all employees", tags = {"Employee Details"})
     @GetMapping
@@ -97,10 +85,6 @@ public class EmployeeController {
         EmployeeDTO savedEmployeeDTO = employeeService.saveEmployee(employeeDTO);
         return new ResponseEntity<>(savedEmployeeDTO, HttpStatus.CREATED);
     }
-    @PostMapping("/new")
-    public String addNewUser (@RequestBody UserInfo userInfo){
-        return employeeService.addUser(userInfo);
-    }
 
     @Operation(summary = "Delete an employee by ID", description = "Delete an employee based on their ID", tags = {"Employee Details"})
 
@@ -111,15 +95,5 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @PostMapping("/authenticate")
-    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(authRequest.getUsername());
-        } else {
-            throw new UsernameNotFoundException("invalid user request !");
-        }
 
-
-    }
 }

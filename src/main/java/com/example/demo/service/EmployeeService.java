@@ -106,23 +106,14 @@
 package com.example.demo.service;
 import com.example.demo.model.Employee;
 import com.example.demo.model.EmployeeDTO;
-import com.example.demo.model.UserInfo;
 import com.example.demo.repository.EmployeeRepository;
-
-import com.example.demo.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class EmployeeService {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserInfoRepository repository;
     @Autowired
     private  EmployeeRepository employeeRepository;
 
@@ -152,15 +143,6 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    // Helper method to convert Employee to EmployeeDTO
-//    private EmployeeDTO convertToDTO(Employee employee) {
-//        return new EmployeeDTO(employee.getId(), employee.getName(), employee.getDepartment());
-//    }
-//
-//    // Helper method to convert EmployeeDTO to Employee
-//    private Employee convertToEntity(EmployeeDTO employeeDTO) {
-//        return new Employee(employeeDTO.getName(), employeeDTO.getDepartment());
-//    }
     private EmployeeDTO convertToDTO(Employee employee) {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setId(employee.getId());
@@ -176,9 +158,4 @@ public class EmployeeService {
         employee.setDepartment(employeeDTO.getDepartment());
         return employee;
     }
-    public String addUser(UserInfo userInfo) {
-            userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-            repository.save(userInfo);
-            return "user added to system ";
-        }
     }

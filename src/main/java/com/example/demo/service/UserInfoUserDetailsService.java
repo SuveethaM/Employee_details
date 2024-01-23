@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.config.UserInfoUserDetails;
+import com.example.demo.model.UserInfoUserDetails;
 import com.example.demo.model.UserInfo;
 import com.example.demo.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
 
 
@@ -45,6 +45,7 @@ package com.example.demo.model;
 
 
 
+import com.example.demo.model.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

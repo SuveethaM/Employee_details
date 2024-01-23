@@ -1,6 +1,6 @@
 package com.example.demo;
 import com.example.demo.controller.EmployeeController;
-import com.example.demo.model.EmployeeDTO;
+import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

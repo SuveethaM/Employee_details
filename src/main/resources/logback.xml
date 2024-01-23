@@ -51,3 +51,44 @@
     <appender-ref ref="STDOUT" />
 </root>
 </configuration>
+<!--<configuration>-->
+
+<!--    &lt;!&ndash; Console Appender &ndash;&gt;-->
+<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <encoder>-->
+<!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; File Audit Appender &ndash;&gt;-->
+<!--    <appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>logs/debug.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>logs/archived/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        &lt;!&ndash; Add any additional configurations for your appender &ndash;&gt;-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; File Error Appender &ndash;&gt;-->
+<!--    <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--        <file>logs/error.log</file>-->
+<!--        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--            <fileNamePattern>logs/archived/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>-->
+<!--            <maxHistory>30</maxHistory>-->
+<!--        </rollingPolicy>-->
+<!--        &lt;!&ndash; Add any additional configurations for your appender &ndash;&gt;-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; Logger Configuration &ndash;&gt;-->
+<!--    <logger name="logging.level.com.appsdeveloperblog" level="DEBUG" additivity="false">-->
+<!--        <appender-ref ref="FILE-AUDIT" />-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </logger>-->
+
+<!--    &lt;!&ndash; Root Logger Configuration &ndash;&gt;-->
+<!--    <root level="ERROR">-->
+<!--        <appender-ref ref="FILE-ERROR" />-->
+<!--    </root>-->
+
+<!--</configuration>-->

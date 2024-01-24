@@ -1,11 +1,9 @@
-package com.example.demo.model;
+package com.example.demo.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 public class Scheduler {
     @Autowired
     private MailSender mailSender;

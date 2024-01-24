@@ -35,7 +35,9 @@ public class EmployeeService {
 
     // Delete employee
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        Optional<Employee> productOptional = employeeRepository.findById(id);
+        productOptional.ifPresent(employeeRepository::delete);
+        //employeeRepository.deleteById(id);
     }
     private EmployeeDTO convertToDTO(Employee employee) {
         EmployeeDTO employeeDTO = new EmployeeDTO();

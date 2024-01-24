@@ -1,0 +1,12 @@
+Index: Dockerfile
+===================================================================
+diff --git a/Dockerfile b/Dockerfile
+deleted file mode 100644
+--- a/Dockerfile	(revision de0e15713d751fbe25a68b9afa1f8210e5986d0d)
++++ /dev/null	(revision de0e15713d751fbe25a68b9afa1f8210e5986d0d)
+@@ -1,4 +0,0 @@
+-FROM openjdk:8
+-EXPOSE 8080
+-ADD target/spring-boot-docker.jar spring-boot-docker.jar
+-ENTRYPOINT ["java","-jar","/spring-boot-docker.jar"]
+\ No newline at end of file

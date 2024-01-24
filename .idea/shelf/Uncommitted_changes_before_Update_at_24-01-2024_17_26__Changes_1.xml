@@ -1,0 +1,39 @@
+<changelist name="Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1" date="1706097539794" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 24-01-2024 17:26 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/example/demo/config/SecurityConfig.class" />
+    <option name="AFTER_PATH" value="target/classes/com/example/demo/config/SecurityConfig.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/SecurityConfig.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/example/demo/EmployeeApplication.class" />
+    <option name="AFTER_PATH" value="target/classes/com/example/demo/EmployeeApplication.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/EmployeeApplication.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/spring-boot-docker.jar.original" />
+    <option name="AFTER_PATH" value="target/spring-boot-docker.jar.original" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/spring-boot-docker.jar.original" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/test-classes/com/example/demo/EmployeeApplicationTests.class" />
+    <option name="AFTER_PATH" value="target/test-classes/com/example/demo/EmployeeApplicationTests.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/EmployeeApplicationTests.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/example/demo/config/SwaggerConfig.class" />
+    <option name="AFTER_PATH" value="target/classes/com/example/demo/config/SwaggerConfig.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/SwaggerConfig.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/spring-boot-docker.jar" />
+    <option name="AFTER_PATH" value="target/spring-boot-docker.jar" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/spring-boot-docker.jar" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/com/example/demo/controller/EmployeeController.class" />
+    <option name="AFTER_PATH" value="target/classes/com/example/demo/controller/EmployeeController.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_24-01-2024_17_26_[Changes]1/EmployeeController.class" />
+  </binary>
+</changelist>

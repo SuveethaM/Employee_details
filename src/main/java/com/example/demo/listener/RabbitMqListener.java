@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RabbitMqListener {
+
     @Autowired
     private EmployeeService employeeService;
 

@@ -1,6 +1,4 @@
 package com.example.demo.utils;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,9 +6,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomHealthIndicator implements HealthIndicator {
+    private final JdbcTemplate jdbcTemplate;
+    public CustomHealthIndicator(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Override
     public Health health() {

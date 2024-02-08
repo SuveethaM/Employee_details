@@ -1,24 +1,28 @@
 package com.example.demo.utils;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.logging.Logger;
+
 @Component
 public class Scheduler {
 
-    @Autowired
-    private JavaMailSender javaMailSender;
+    private static final Logger LOGGER = Logger.getLogger(Scheduler.class.getName());
+    private final JavaMailSender javaMailSender;
 
+    public Scheduler(JavaMailSender javaMailSender) {
+        this.javaMailSender = javaMailSender;
+    }
     // Scheduled email method for demonstration (every 30 seconds)
     @Scheduled(cron = "*/30 * * * * *")
     public void sendScheduledEmail() {
         String to = "fake-email@example.com";
         String subject = "Scheduled Email: Every 30 seconds";
         String text = "This is a scheduled email sent every 30 seconds from Schedular.";
-        System.out.println("Every 30 seconds");
+        LOGGER.info("Every 30 seconds");
+
 
         sendEmail(to, subject, text);
     }
@@ -33,6 +37,7 @@ public class Scheduler {
 
     @Scheduled(cron = "*/5 * * * * *")
     public void printScheduledMessage() {
-        System.out.println("Scheduler Message");
+        LOGGER.info("Scheduler message");
+
     }
 }

@@ -5,12 +5,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.annotation.Resource;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.webjars.NotFoundException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +23,16 @@ import java.util.Optional;
 @RequestMapping("/employees")
 @Tag(name = "Employee Details", description = "The endpoints that handle the management of employee details")
 public class EmployeeController {
+  @Resource(name="redisTemplate")
+   private HashOperations<String, String, EmployeeDTO> hashOperations;
+    private final EmployeeService employeeService;
+    private final RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private EmployeeService employeeService;
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+    public EmployeeController(EmployeeService employeeService, RabbitTemplate rabbitTemplate) {
+        this.employeeService = employeeService;
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
 
     @Operation(summary = "Get all employees", description = "Get a list of all employees", tags = {"Employee Details"})
     @GetMapping
@@ -34,7 +44,7 @@ public class EmployeeController {
 
     @Operation(summary = "Get an employee by ID", description = "Get an employee based on their ID", tags = {"Employee Details"})
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<EmployeeDTO> getEmployeeById(
             @PathVariable @Parameter(description = "ID of the employee") Long id) {
         Optional<EmployeeDTO> employeeDTO = employeeService.getEmployeeById(id);
@@ -49,6 +59,7 @@ public class EmployeeController {
         EmployeeDTO savedEmployeeDTO = employeeService.saveEmployee(employeeDTO);
         return new ResponseEntity<>(savedEmployeeDTO, HttpStatus.CREATED);
     }
+
 
     @Operation(summary = "Delete an employee by ID", description = "Delete an employee based on their ID", tags = {"Employee Details"})
 

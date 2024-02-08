@@ -2,19 +2,23 @@ package com.example.demo.listener;
 import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RabbitMqListener {
 
-    @Autowired
-    private EmployeeService employeeService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqListener.class);
 
+    private final EmployeeService employeeService;
+    public RabbitMqListener(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
     @RabbitListener(queues = "myQueue")
     public void receiveMessage(String message) {
-        System.out.println("Received message: " + message);
+        LOGGER.info("Received message: {}", message);
 
         // Convert JSON message to EmployeeDTO
         EmployeeDTO receivedEmployee = convertJsonToEmployeeDTO(message);
@@ -30,7 +34,7 @@ public class RabbitMqListener {
             return objectMapper.readValue(json, EmployeeDTO.class);
         } catch (Exception e) {
             // Handle the exception appropriately (e.g., log it)
-            e.printStackTrace();
+            LOGGER.error("Failed to convert JSON to EmployeeDTO", e);
             return null; // Return null or throw an exception based on your requirements
         }
     }
@@ -39,11 +43,12 @@ public class RabbitMqListener {
         if (employeeDTO != null) {
             // Save the received employeeDTO to the database using EmployeeService
             employeeService.saveEmployee(employeeDTO);
-            System.out.println("Saved employee to the database: " + employeeDTO.toString());
+            LOGGER.info("Saved employee to the database: {}", employeeDTO);
             // Add your additional processing logic here if needed
         } else {
-            System.out.println("Failed to save employee to the database. EmployeeDTO is null.");
+            LOGGER.error("Failed to save employee to the database. EmployeeDTO is null.");
             // Handle the case where deserialization failed or employeeDTO is null
         }
     }
+
 }

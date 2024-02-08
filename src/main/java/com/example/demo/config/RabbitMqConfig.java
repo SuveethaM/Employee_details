@@ -4,13 +4,18 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 @Component
 public class RabbitMqConfig{
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+
+    private final RabbitTemplate rabbitTemplate;
+
+    // Constructor with RabbitTemplate parameter
+    public RabbitMqConfig(RabbitTemplate rabbitTemplate)
+    {
+        this.rabbitTemplate = rabbitTemplate;
+    }
     @Bean
     public Queue queue() {
         return new Queue("myQueue", true);
@@ -25,4 +30,5 @@ public class RabbitMqConfig{
         // Bind the queue to the exchange with a specific routing key
         return BindingBuilder.bind(queue).to(directExchange).with("myRoutingKey");
     }
+
 }

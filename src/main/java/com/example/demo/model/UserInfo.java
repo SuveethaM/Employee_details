@@ -20,4 +20,13 @@ public class UserInfo {
     private String email;
     private String password;
     private String roles;
+    private boolean enabled;
+    public UserInfo(int id, String name, String email, String password, String[] roles, boolean enabled) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = String.join(",", roles);
+        this.enabled = enabled;
+    }
 }

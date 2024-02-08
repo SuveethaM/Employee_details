@@ -3,20 +3,22 @@ package com.example.demo.service;
 import com.example.demo.model.UserInfoUserDetails;
 import com.example.demo.model.UserInfo;
 import com.example.demo.repository.UserInfoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class UserInfoUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserInfoRepository repository;
+    private final UserInfoRepository repository;
 
+    // Constructor with UserInfoRepository parameter
+    public UserInfoUserDetailsService(UserInfoRepository repository) {
+        this.repository = repository;
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserInfo> userInfo = repository.findByName(username);

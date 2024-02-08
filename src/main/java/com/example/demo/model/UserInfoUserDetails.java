@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,13 +17,19 @@ public class UserInfoUserDetails implements UserDetails {
     private String name;
     private String password;
     private List<GrantedAuthority> authorities;
-
+    private boolean enabled;
     public UserInfoUserDetails(UserInfo userInfo) {
         name=userInfo.getName();
         password=userInfo.getPassword();
-        authorities= Arrays.stream(userInfo.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        enabled = userInfo.isEnabled();
+
+        if (userInfo.getRoles() != null && !userInfo.getRoles().isEmpty()) {
+            authorities = Arrays.stream(userInfo.getRoles().split(","))
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+        } else {
+            authorities = Collections.emptyList();
+        }
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.example.demo.model.AuthRequest;
 import com.example.demo.model.UserInfo;
 import com.example.demo.service.JwtService;
 import com.example.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,10 +17,6 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserService userService;
-
-
-
-    @Autowired
     public UserController(AuthenticationManager authenticationManager, JwtService jwtService,  UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;

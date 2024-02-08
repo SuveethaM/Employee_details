@@ -1,8 +1,7 @@
 package com.example.demo.config;
+import com.example.demo.repository.UserInfoRepository;
 import com.example.demo.service.UserInfoUserDetailsService;
 import com.example.demo.filter.JwtAuthFilter;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,18 +22,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    @Autowired
-    private JwtAuthFilter authFilter;
+
 
     @Bean
-    //authentication
-    public UserDetailsService userDetailsService() {
-        return new UserInfoUserDetailsService();
+    public UserDetailsService userDetailsService(UserInfoRepository userInfoRepository) {
+        return new UserInfoUserDetailsService(userInfoRepository);
     }
 
 
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,  JwtAuthFilter authFilter ) throws Exception {
 
         http.csrf(csrf -> csrf.disable())
                 .cors(cors->cors.disable())
@@ -51,13 +49,14 @@ public class SecurityConfig {
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder){
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }

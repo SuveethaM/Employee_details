@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">EmployeeApplication</a> &gt; <a href="index.source.html" class="el_package">com.example.demo.service</a> &gt; <span class="el_source">EmployeeService.java</span></div><h1>EmployeeService.java</h1><pre class="source lang-java linenums">package com.example.demo.service;
+
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Employee;
+import com.example.demo.dto.EmployeeDTO;
+import com.example.demo.repository.EmployeeRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class EmployeeService {
+
+    private final EmployeeRepository employeeRepository;
+
+    @Autowired
+<span class="fc" id="L24">    public EmployeeService(EmployeeRepository employeeRepository) {</span>
+<span class="fc" id="L25">        this.employeeRepository = employeeRepository;</span>
+<span class="fc" id="L26">    }</span>
+
+    @Cacheable(&quot;employees&quot;)
+    public List&lt;EmployeeDTO&gt; getAllEmployees() {
+<span class="fc" id="L30">        return employeeRepository.findAll()</span>
+<span class="fc" id="L31">                .stream()</span>
+<span class="fc" id="L32">                .map(this::convertToDTO)</span>
+<span class="fc" id="L33">                .toList();</span>
+    }
+
+    public Optional&lt;EmployeeDTO&gt; getEmployeeById(Long id) {
+<span class="fc" id="L37">        return employeeRepository.findById(id)</span>
+<span class="fc" id="L38">                .map(employee -&gt; Optional.ofNullable(convertToDTO(employee)))</span>
+<span class="pc" id="L39">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Employee not found with ID: &quot; + id));</span>
+    }
+
+    @CacheEvict(value = &quot;employees&quot;, allEntries = true)
+    @CachePut(value = &quot;employees&quot;, key = &quot;#result.id&quot;)
+    public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) {
+<span class="fc" id="L45">        Employee employee = convertToEntity(employeeDTO);</span>
+<span class="fc" id="L46">        Employee savedEmployee = employeeRepository.save(employee);</span>
+<span class="fc" id="L47">        return convertToDTO(savedEmployee);</span>
+    }
+
+    public void deleteEmployee(Long id) {
+<span class="fc" id="L51">        Employee employee = employeeRepository.findById(id)</span>
+<span class="pc" id="L52">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Employee not found with ID: &quot; + id));</span>
+
+<span class="fc" id="L54">        employeeRepository.delete(employee);</span>
+<span class="fc" id="L55">    }</span>
+
+    public EmployeeDTO convertToDTO(Employee employee) {
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (employee == null) {</span>
+<span class="nc" id="L59">            return null;</span>
+        }
+<span class="fc" id="L61">        EmployeeDTO employeeDTO = new EmployeeDTO();</span>
+<span class="fc" id="L62">        employeeDTO.setId(employee.getId());</span>
+<span class="fc" id="L63">        employeeDTO.setName(employee.getName());</span>
+<span class="fc" id="L64">        employeeDTO.setDepartment(employee.getDepartment());</span>
+<span class="fc" id="L65">        return employeeDTO;</span>
+    }
+
+    public Employee convertToEntity(EmployeeDTO employeeDTO) {
+<span class="fc" id="L69">        Employee employee = new Employee();</span>
+<span class="fc" id="L70">        employee.setId(employeeDTO.getId());</span>
+<span class="fc" id="L71">        employee.setName(employeeDTO.getName());</span>
+<span class="fc" id="L72">        employee.setDepartment(employeeDTO.getDepartment());</span>
+<span class="fc" id="L73">        return employee;</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

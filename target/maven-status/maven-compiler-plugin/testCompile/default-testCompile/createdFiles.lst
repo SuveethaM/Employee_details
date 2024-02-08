@@ -1,0 +1,15 @@
+com\example\demo\UserServiceTest.class
+com\example\demo\EmployeeApplicationTests.class
+com\example\demo\RabbitMqListenerTest.class
+com\example\demo\UserInfoUserDetailsTest.class
+com\example\demo\SchedulerTest.class
+com\example\demo\JwtServiceTest$UserDetailsMock.class
+com\example\demo\CustomHealthIndicatorTests.class
+com\example\demo\EmployeedtoTest.class
+com\example\demo\EmployeeServiceTest.class
+com\example\demo\JwtServiceTest.class
+com\example\demo\AuthRequestTest.class
+com\example\demo\EmailAspectTests.class
+com\example\demo\EmployeeTest.class
+com\example\demo\UserInfoTest.class
+com\example\demo\RabbitMqConfigTest.class

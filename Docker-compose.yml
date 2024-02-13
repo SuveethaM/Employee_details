@@ -1,58 +1,16 @@
-version: '3'
+version: "3.9"
+
 services:
-  app:
-    image: springboot
-    ports:
-      - "8090:8080"
-    depends_on:
-      - database
-      - rabbitmq
-      - redis
-      - fakesmtp
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/employee_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Gandhi@123
-      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
-      SPRING_DATASOURCE_DRIVER-CLASS-NAME: com.mysql.cj.jdbc.Driver
-      SPRING_JPA_HIBERNATE_DDL-AUTO: update
-      SPRING_JPA_OPEN-IN-VIEW: false
-      SPRING_DEBUG: "true"
-      SPRING_SECURITY_USER_NAME: suvee
-      SPRING_SECURITY_USER_PASSWORD: Pwd1
-      MANAGEMENT_ENDPOINT_HEALTH_SHOW-DETAILS: always
-      SPRING_MAIL_HOST: fakesmtp
-      SPRING_MAIL_PORT: 25
-      SPRING_MAIL_USERNAME: demo@localhost
-      SPRING_MAIL_PASSWORD: demopassword
-      SPRING_RABBITMQ_HOST: rabbitmq
-      SPRING_RABBITMQ_PORT: 5672
-      SPRING_RABBITMQ_USERNAME: guest
-      SPRING_RABBITMQ_PASSWORD: guest
-      SPRING_REDIS_HOST: redis
-      SPRING_CACHE_TYPE: redis
-      SPRING_REDIS_PORT: 6379
-      SPRING_CACHE_REDIS_CACHE-NULL-VALUES: "true"
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "false"
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
-      SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL: smtp
-      SPRING_MAIL_PROPERTIES_MAIL_SMTPS_QUITWAIT: "false"
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SOCKETFACTORY_PORT: 465
-      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SOCKETFACTORY_CLASS: javax.net.ssl.SSLSocketFactory
-  database:
-    image: mysql:latest
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: Gandhi@123
       MYSQL_DATABASE: employee_db
     ports:
       - "3307:3306"
-  rabbitmq:
-    image: rabbitmq:latest
-    ports:
-      - "5672:5672"
   redis:
-    image: redis:latest
-    restart: always
+    image: redis
     ports:
       - "6379:6379"
   fakesmtp:
@@ -60,4 +18,41 @@ services:
     ports:
       - "25:25"
     environment:
-      - EMAIL_STORAGE=/var/mail
+      SPRING_MAIL_HOST: fakesmtp
+      SPRING_MAIL_PORT: 25
+      SPRING_MAIL_USERNAME: demo@localhost
+      SPRING_MAIL_PASSWORD: demopassword
+      SPRING_CACHE_REDIS_CACHE-NULL-VALUES: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "false"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_TRANSPORT_PROTOCOL: smtp
+      SPRING_MAIL_PROPERTIES_MAIL_SMTPS_QUITWAIT: "false"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SOCKETFACTORY_PORT: 465
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_SOCKETFACTORY_CLASS: javax.net.ssl.SSLSocketFactory
+  rabbitmq:
+      image: rabbitmq:latest
+      ports:
+        - "5672:5672"
+      environment:
+        SPRING_RABBITMQ_HOST: rabbitmq
+        SPRING_RABBITMQ_PORT: 5672
+        SPRING_RABBITMQ_USERNAME: guest
+        SPRING_RABBITMQ_PASSWORD: guest
+  app:
+    image: springboot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+      #- redis
+    ports:
+      - "8090:8080"
+    links:
+      - redis
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/employee_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Gandhi@123
+    #   REDIS_HOST: redis
+    #  REDIS_PORT: 6379

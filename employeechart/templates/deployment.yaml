@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fakesmtp
+  labels:
+    app: fakesmtp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fakesmtp
+  template:
+    metadata:
+      labels:
+        app: fakesmtp
+    spec:
+      containers:
+        - name: fakesmtp
+          image: djfarrelly/maildev
+          ports:
+            - containerPort: 25
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "Gandhi@123"  # Specify your root password here
+            - name: MYSQL_DATABASE
+              value: "employee_db"   # Specify your database name here
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://localhost:3306/employee_db"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "Gandhi@123"
+          ports:
+            - containerPort: 3306
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:management
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: employeechart
+  labels:
+    app: employeechart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employeechart
+  template:
+    metadata:
+      labels:
+        app: employeechart
+    spec:
+      containers:
+        - name: employeechart
+          image: suveetha/springboot
+
+          ports:
+            - containerPort: 8080

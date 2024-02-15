@@ -7,8 +7,9 @@ services:
     depends_on:
       - database
       - rabbitmq
-      - redis
       - fakesmtp
+    links:
+      -redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/employee_db
       SPRING_DATASOURCE_USERNAME: root
@@ -29,9 +30,7 @@ services:
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
-      SPRING_REDIS_HOST: redis
-      SPRING_CACHE_TYPE: redis
-      SPRING_REDIS_PORT: 6379
+    
       SPRING_CACHE_REDIS_CACHE-NULL-VALUES: "true"
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "false"
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
@@ -52,7 +51,7 @@ services:
       - "5672:5672"
   redis:
     image: redis:latest
-    restart: always
+    
     ports:
       - "6379:6379"
   fakesmtp:

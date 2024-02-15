@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 services:
   app:
     image: springboot
@@ -20,7 +20,7 @@ services:
       
      
   database:
-    image: mysql
+    image: mysql:latest
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: Gandhi@123

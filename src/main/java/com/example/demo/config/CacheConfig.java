@@ -21,9 +21,9 @@ import java.time.Duration;
 @Configuration
 @EnableCaching
 public class CacheConfig extends CachingConfigurerSupport {
-    @Value("${spring.redis.host}")
+    @Value("${spring.redis.host:redis}")
     private String host;
-    @Value("${spring.redis.port}")
+    @Value("${spring.redis.port:6379}")
     private Integer port;
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
